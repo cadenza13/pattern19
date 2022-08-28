@@ -9,15 +9,48 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-  <table>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-    <tr></tr>
-  </table>
+  <div class="title">
+    <img src="img/LOGO.png" alt="ロゴ画像">
+    <button id="start-btn">GAME START</button>
+
+    <div class="rule">
+      <h1>～ ルール ～</h1>
+      <ul>
+        <li>簡単なルーレットが遊べます。</li>
+        <li>ストレートベット、アウトサイドベットが可能です。</li>
+        <li>賭けたい場所をクリック(タップ)するとベットできます。</li>
+        <li>『1 BET』を押すと、ベット数を切り替えられます。</li>
+        <li>『増やす』を『減らす』に切り替えると、</li>
+        <li>クレジットが0になるとゲームオーバーです。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="table hidden">
+    <table>
+      <tr></tr>
+      <tr></tr>
+      <tr></tr>
+      <tr></tr>
+      <tr></tr>
+      <tr></tr>
+      <tr></tr>
+    </table>
+  
+    <div id="credit"></div>
+    
+    <div class="bet-btns">
+      <button id="amount-btn">1 BET</button>
+      <button id="convert-btn">増やす</button>
+    </div>
+
+    <button id="spin-btn">ルーレットを回す</button>
+  </div>
+
+  <div class="text-display">
+    <p id="text"></p>
+    <span>OK</span>
+  </div>
   
   <script src="js/main.js"></script>
 </body>
