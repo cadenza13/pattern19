@@ -119,19 +119,24 @@
         }
       });
     }
-
-    result(number){
+    
+    result(number, div){
+      this.tableNode.classList.add('freeze');
+      
       this.spots.forEach((spot, index) =>{
         if(spot.num === number){
           let bonus = 0;
+          div.classList.add(`${spot.class}`);
 
           if(spot.count > 0){ //数字の直当たりを判定
             bonus += spot.count * spot.odds;
           }
 
           if(number === 0){ //０ならここで終了
-            this.showText();
-            player.elected(bonus);
+            setTimeout(() => {
+              this.showText(index, bonus);
+              player.elected(bonus);
+            }, 1000);
             return;
           }
 
@@ -169,8 +174,10 @@
             bonus += this.spots[45].count * this.spots[45].odds;
           }
 
-          player.elected(bonus);
-          this.showText(index, bonus);
+          setTimeout(() => {
+            player.elected(bonus);
+            this.showText(index, bonus);
+          }, 1000);
         }
       });
     }
@@ -183,7 +190,6 @@
       }
 
       this.textDisplay.classList.add('appear');
-      this.tableNode.classList.add('freeze');
 
       const textBtn = document.querySelector('span');
       textBtn.addEventListener('click', () =>{
@@ -210,7 +216,11 @@
           this.bet.format(index);
         }
       });
-
+      
+      const ball = document.querySelector('.ball > div');
+      if(ball !== null){
+        ball.remove();
+      }
       this.betSwitch = false;
     }
   }
@@ -293,15 +303,48 @@
   class Rulet{
     constructor(){
       this.number = Math.floor(Math.random() * 37);
-      table.result(this.number);
-      console.log(this.number);
+      const ball = document.querySelector('.ball');
+      const displayWidth = document.querySelector('body').getBoundingClientRect().width;
+      const ballMove = displayWidth / 2;
+      ball.style.transform = `translateX(-${displayWidth}px)`;
+
+      const div = document.createElement('div');
+      div.textContent = `${this.number}`;
+      ball.appendChild(div);
+      
+      table.result(this.number, div);
+      
+      setTimeout(() => {
+        ball.style.transition = 'all .5s ease-in';
+        ball.style.transform += `translateX(${ballMove}px) rotate(180deg)`;
+      }, 100);
+
+      setTimeout(() => {
+        ball.style.transition = 'all .5s ease-out';
+        ball.style.transform += `translateX(-${ballMove}px) rotate(180deg)`;
+      }, 600);
+
+      setTimeout(() => {
+        ball.style.transition = 'none';
+      }, 1100);
+
+      // this.canvas = document.querySelector('canvas');
+      // this.ctx = this.canvas.getContext('2d');
+
+      // this.ctx.fillStyle = 'rgb(0, 0, 0)';
+      // this.ctx.fillRect(0, 0, 300, 300);
+
+      // this.ctx.beginPath();
+      // this.ctx.ellipse(150, 150, 100, 100, 0, 0, 2 * Math.PI);
+      // this.ctx.fillStyle = 'rgb(200, 200, 200)';
+      // this.ctx.fill();
     }
   }
 
   class Player{
     constructor(){
       this.credit = document.getElementById('credit');
-      this.currentCredit = 100;
+      this.currentCredit = 10;
 
       this.creditUpdate();
     }
